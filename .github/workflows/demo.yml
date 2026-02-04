@@ -57,6 +57,7 @@ jobs:
         path: dist
   deploy:   
       runs-on: ubuntu-latest
+      needs: build
       steps:
       - name: Get build artifacts
         uses: actions/download-artifact@v4
