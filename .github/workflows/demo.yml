@@ -20,9 +20,14 @@ jobs:
       - name: Get Code
         uses: actions/checkout@v3
 
-      - name: Run Tests
+      - name: Install Dependencies
         run: |
-          python -m unittest discover -s tests
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run pytest
+        run: |
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
+          pytest
   build:
     runs-on: ubuntu-latest
     steps:
@@ -42,7 +47,6 @@ jobs:
           name: build-artifacts
           path: |
             ./build/
-            
 
   deploy:
       runs-on: ubuntu-latest
