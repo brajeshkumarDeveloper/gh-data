@@ -47,8 +47,13 @@ jobs:
     - name: Build Project
       run: |
         echo "Building the project..."
-        mkdir -p build
-        echo "Sample build output" > build/output.txt
+        mkdir -p dist
+        echo "Sample build output" > dist/output.txt
+
+    - name: Show build files
+      run: |
+        echo "Files in dist/ before upload"
+        ls -la dist || true
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
