@@ -24,38 +24,33 @@ jobs:
         run: |
           pip install flake8
           flake8 .
-test:
-  runs-on: ubuntu-latest
-  needs: Lint
-  env:
-    DB_NAME: test_db
-    DB_USER: root
-    DB_HOST: localhost
+  test:
+    env:
+      DB_NAME: test_db
+      DB_USER: root
+      DB_HOST: localhost
+    runs-on: ubuntu-latest
+    needs: Lint
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v3
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with: 
+          path: ~/.cache/pip
+          key: ${{runner.os}}-pip-${{ hashFiles('**/requirements.txt')}}
+          
 
-  steps:
-    - name: Get Code
-      uses: actions/checkout@v3
-
-    - name: Cache dependencies
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-
-    - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-
-    - name: Run pytest
-      run: |
-        export PYTHONPATH=$PYTHONPATH:$(pwd)
-        pytest
-
-    - name: Output Information
-      run: echo "DB_NAME  ${{ env.DB_NAME }}"
-
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run pytest
+        run: |
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
+          pytest
+      - name: Output Information
+        run: echo "DB_NAME ${{ env.DB_NAME }}"
   build:
     runs-on: ubuntu-latest
     needs: test
@@ -109,5 +104,5 @@ test:
         run: |
           echo "Deploying the project..."
           echo "DB_NAME: ${{ env.DB_NAME }}"
-           echo "SQL_DB: $SQL_DB"
+           echo "SQL_DB: $SQL_DB }}"
           # Add your deployment commands here
