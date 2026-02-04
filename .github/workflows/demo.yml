@@ -1,5 +1,7 @@
 name: Deployment Workflow-2
 on: push
+env:
+  SQL_DB: abc
 jobs:
   Lint:
     runs-on: ubuntu-latest
@@ -23,6 +25,10 @@ jobs:
           pip install flake8
           flake8 .
   test:
+    env:
+      DB_NAME: test_db
+      DB_USER: root
+      DB_HOST: localhost
     runs-on: ubuntu-latest
     needs: Lint
     steps:
@@ -43,6 +49,8 @@ jobs:
         run: |
           export PYTHONPATH=$PYTHONPATH:$(pwd)
           pytest
+      - name: Output Information
+        run: echo "DB_NAME: ${{ env.DB_NAME }}"
   build:
     runs-on: ubuntu-latest
     needs: test
@@ -95,4 +103,6 @@ jobs:
       - name: Deploy Project
         run: |
           echo "Deploying the project..."
+          echo "DB_NAME: ${{ env.DB_NAME }}"
+           echo "SQL_DB: $SQL_DB"
           # Add your deployment commands here
