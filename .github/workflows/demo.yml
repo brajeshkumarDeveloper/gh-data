@@ -54,7 +54,7 @@ test:
         pytest
 
     - name: Output Information
-      run: echo "DB_NAME: ${{ env.DB_NAME }}"
+      run: echo "DB_NAME ${{ env.DB_NAME }}"
 
   build:
     runs-on: ubuntu-latest
