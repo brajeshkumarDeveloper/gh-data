@@ -1,0 +1,10 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "githubaction-multipleworkflow"
+version = "0.0.0"
+description = "Minimal project metadata for CI builds"
+
+# Add additional metadata (authors, dependencies) as needed
