@@ -69,6 +69,8 @@ jobs:
         with:
           name: dist-files
           path: ./downloaded
+      - name: Output filenames
+        run: echo "${{needs.build.outputs}}"    
       - name: Deploy Project
         run: |
           echo "Deploying the project..."
